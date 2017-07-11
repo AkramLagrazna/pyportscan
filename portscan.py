@@ -1,7 +1,7 @@
 from socket import *
 import sys, time, paramiko, os
 from datetime import datetime
-import ftllib
+import ftplib
 
 host = ''
 max_port = 5000
