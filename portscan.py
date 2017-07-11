@@ -10,7 +10,7 @@ host =''
 username = ''
 line = ''
 input_file = ''
-paramiko.util.log_to_file("filename.log")
+paramiko.util.log_to_file("chiedonocomeva.log")
 code = 0
 
 def ftp_login(host, username, password):
